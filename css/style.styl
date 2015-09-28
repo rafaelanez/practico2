@@ -5,6 +5,22 @@
  *
  * Made By MaterializeCSS.com
  */
+ 
+ ::-webkit-input-placeholder {
+   color: rgba(0,0,0,0.7);
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: rgba(0,0,0,0.7);  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: rgba(0,0,0,0.7);  
+}
+
+:-ms-input-placeholder {  
+   color: rgba(0,0,0,0.7);  
+}
 
 .icon-block {
   padding: 0 15px;
@@ -13,6 +29,53 @@
 	font-size: inherit;
 }
 
-header {
-	color: #fff;
+.no-margin-bottom{
+	margin-bottom: 0
+}
+
+main {
+	margin-top: 32px;	
+	#agregar-nota {
+  		input, textarea {
+  			border-bottom: none;
+  			height: 1.5rem;
+  			margin: 0 0 8px;
+  		}
+  		input:focus, textarea:focus {
+  			box-shadow: none;
+  		}
+  		input {
+  			font-weight: bold;
+  		}
+  		textarea.materialize-textarea {
+  			padding: 0;
+  			min-height: initial;
+  		}
+	}
+	.nota.card {
+		.card-action {
+			padding 8px 20px;
+			visibility: hidden;
+      -webkit-transition: 0.25s;
+      -moz-transition: 0.25s;
+      -o-transition: 0.25s;
+      -ms-transition: 0.25s;
+      transition: 0.25s;
+		}
+	}
+ .nota.card:hover {
+    .card-action {
+      visibility: visible;
+    }
+  }
+	#categorias {
+		a:hover {
+			i {
+				font-weight: 600;
+			}
+		}
+	}
+  #main-listaNotasArchivadas {
+    display:none;
+  }
 }

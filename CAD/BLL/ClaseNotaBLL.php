@@ -2,7 +2,7 @@
 
 class NotaBLL {
 
-    function insert($fecha, $titulo, $nota, $estado, $idCategoria) {
+    function insert($titulo, $nota, $idCategoria) {
         $claseConexion = new Connection();
         $resultado = $claseConexion->queryWithParams("CALL sp_tblNota_Insert(:tituloParam,:notaParam,:idCategoriaParam);", array(
             ":tituloParam" => $titulo,
@@ -13,7 +13,7 @@ class NotaBLL {
         return $rowId["lastId"];
     }
 
-    function update($id, $fecha, $nota, $estado, $idCategoria) {
+    function update($id, $fecha, $titulo, $nota) {
         $claseConexion = new Connection();
         $claseConexion->queryWithParams("CALL sp_tblNota_Update(:idParam,:fechaParam,:tituloParam,:notaParam);", array(
             ":idParam" => $id,
@@ -38,10 +38,11 @@ class NotaBLL {
         ));
     }
 
-    function archivar($id) {
+    function archivar($id, $estado) {
         $claseConexion = new Connection();
-        $claseConexion->queryWithParams("CALL sp_tblNota_Archivar(:idParam)", array(
-            ":idParam" => $id
+        $claseConexion->queryWithParams("CALL sp_tblNota_Archivar(:idParam,:estadoParam)", array(
+            ":idParam" => $id,
+            ":estadoParam" => $estado
         ));
     }
 
@@ -61,7 +62,6 @@ class NotaBLL {
         $resultado = $claseConexion->queryWithParams("CALL sp_tblNota_SelectById(:idParam);", array(
             ":idParam" => $id
         ));
-
         if ($row = $resultado->fetch(PDO::FETCH_ASSOC)) {
             $objResultado = $this->rowToDto($row);
             return $objResultado;
@@ -74,12 +74,25 @@ class NotaBLL {
         $resultado = $claseConexion->queryWithParams("CALL sp_tblNota_SelectByCategoria(:idCategoriaParam);", array(
             ":idCategoriaParam" => $idCategoria
         ));
-
-        if ($row = $resultado->fetch(PDO::FETCH_ASSOC)) {
+        $listaNotas = array();
+        while ($row = $resultado->fetch(PDO::FETCH_ASSOC)) {
             $objResultado = $this->rowToDto($row);
-            return $objResultado;
+            $listaNotas[] = $objResultado;
         }
-        return null;
+        return $listaNotas;
+    }
+
+    function selectByEstado($estado) {
+        $claseConexion = new Connection();
+        $resultado = $claseConexion->queryWithParams("CALL sp_tblNota_SelectByEstado(:estadoParam);", array(
+            ":estadoParam" => $estado
+        ));
+        $listaNotas = array();
+        while ($row = $resultado->fetch(PDO::FETCH_ASSOC)) {
+            $objResultado = $this->rowToDto($row);
+            $listaNotas[] = $objResultado;
+        }
+        return $listaNotas;
     }
 
     function searchNota($searchText) {
@@ -87,16 +100,16 @@ class NotaBLL {
         $resultado = $claseConexion->queryWithParams("CALL sp_tblNota_SearchNota(:searchTextParam);", array(
             ":searchTextParam" => $searchText
         ));
-
-        if ($row = $resultado->fetch(PDO::FETCH_ASSOC)) {
+        $listaNotas = array();
+        while ($row = $resultado->fetch(PDO::FETCH_ASSOC)) {
             $objResultado = $this->rowToDto($row);
-            return $objResultado;
+            $listaNotas[] = $objResultado;
         }
-        return null;
+        return $listaNotas;
     }
 
     function rowToDto($row) {
-        $objNota = new Categoria();
+        $objNota = new Nota();
         $objNota->setId($row["id"]);
         $objNota->setFecha($row["fecha"]);
         $objNota->setTitulo($row["titulo"]);
@@ -105,6 +118,7 @@ class NotaBLL {
         $objNota->setIdCategoria($row["idCategoria"]);
         return $objNota;
     }
+
 }
 
 ?>

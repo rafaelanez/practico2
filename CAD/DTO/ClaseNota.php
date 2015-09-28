@@ -2,12 +2,12 @@
 
 class Nota {
 
-    private $id;
-    private $fecha;
-    private $titulo;
-    private $nota;
-    private $estado;
-    private $idCategoria;
+    public $id;
+    public $fecha;
+    public $titulo;
+    public $nota;
+    public $estado;
+    public $idCategoria;
 
     /**
      * Gets the value of id.
@@ -26,7 +26,7 @@ class Nota {
      *
      * @return self
      */
-    private function _setId($id)
+    public function setId($id)
     {
         $this->id = $id;
 
@@ -50,12 +50,13 @@ class Nota {
      *
      * @return self
      */
-    private function _setFecha($fecha)
+    public function setFecha($fecha)
     {
         $this->fecha = $fecha;
 
         return $this;
     }
+
     /**
      * Gets the value of titulo.
      *
@@ -73,7 +74,7 @@ class Nota {
      *
      * @return self
      */
-    private function _setTitulo($titulo)
+    public function setTitulo($titulo)
     {
         $this->titulo = $titulo;
 
@@ -97,7 +98,7 @@ class Nota {
      *
      * @return self
      */
-    private function _setNota($nota)
+    public function setNota($nota)
     {
         $this->nota = $nota;
 
@@ -121,7 +122,7 @@ class Nota {
      *
      * @return self
      */
-    private function _setEstado($estado)
+    public function setEstado($estado)
     {
         $this->estado = $estado;
 
@@ -145,13 +146,12 @@ class Nota {
      *
      * @return self
      */
-    private function _setIdCategoria($idCategoria)
+    public function setIdCategoria($idCategoria)
     {
         $this->idCategoria = $idCategoria;
 
         return $this;
     }
-
 }
 
 ?>

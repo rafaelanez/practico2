@@ -2,9 +2,11 @@
 
 class Categoria {
 
-    private $id;
-    private $nombre;
-    private $color;
+    public $id;
+    public $nombre;
+    public $color;
+    
+    
 
     /**
      * Gets the value of id.
@@ -23,7 +25,7 @@ class Categoria {
      *
      * @return self
      */
-    private function _setId($id)
+    public function setId($id)
     {
         $this->id = $id;
 
@@ -47,7 +49,7 @@ class Categoria {
      *
      * @return self
      */
-    private function _setNombre($nombre)
+    public function setNombre($nombre)
     {
         $this->nombre = $nombre;
 
@@ -71,7 +73,7 @@ class Categoria {
      *
      * @return self
      */
-    private function _setColor($color)
+    public function setColor($color)
     {
         $this->color = $color;
 

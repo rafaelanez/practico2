@@ -10,7 +10,7 @@ class Connection {
     private $server = "localhost";
     private $usr = "root";
     private $pass = "";
-    private $db = "practico2";
+    private $db = "practica2";
     private $connection;
 
     function getConnection() {
