@@ -102,34 +102,53 @@ $notaBLL = new NotaBLL();
                         $objCategoria = $categoriaBLL->selectById($objNota->getIdCategoria());
                         $color = $objCategoria->getColor();
                         $darkerColor = $objCategoria->getColor();
+                        $date = date_create($objNota->getFecha());
                         if ($color == 'grey') {
                             $color = 'white';
                         }
                         ?>
                         <div class="col s12 m6 l3">
                             <div id="nota-activa-<?php echo $objNota->getId(); ?>" class="card <?php echo $color; ?> z-depth-1 nota">
-                                <div class="card-content modal-triggerr" href="#modal1">
+                                <div class="card-content">
                                     <h5 class="grey-text text-darken-4"><?php echo $objNota->getTitulo(); ?></h5>
                                     <p>
                                         <?php echo $objNota->getNota(); ?>
                                     </p>
                                 </div>
                                 <div class="card-action <?php echo $darkerColor; ?> darken-1">
-                                    <a id="archivar-nota" href="javascript:archivarNota(<?php 
-                                    echo $objNota->getId(); ?>)"><i class="small mdi mdi-content-archive white-text"></i></a>
-                                    <a id="cambiar-categoria" href="#"><i class="small mdi mdi-image-palette white-text"></i></a>
-                                    <a id="eliminar-nota" href="javascript:eliminarNota(<?php 
-                                    echo $objNota->getId(); ?>)"><i class="small mdi mdi-navigation-close white-text"></i></a>
-                                    <p class="right white-text">11/11/2015</p>
+                                    <a id="archivar-nota" href="#archivar<?php echo $objNota->getId(); ?>" class="modal-trigger btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>
+                                    <a id="cambiar-categoria" href="#" class="btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-image-palette white-text "></i></a>
+                                    <a id="eliminar-nota" href="#eliminar<?php echo $objNota->getId(); ?>" class="modal-trigger btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-navigation-close white-text"></i></a>
                                 </div>
                             </div>
-                            <div id="modal1" class="modal">
+                            <div id="archivar<?php echo $objNota->getId(); ?>" class="modal <?php echo $color; ?>">
                                 <div class="modal-content">
-                                    <h4>Modal Header</h4>
-                                    <p>A bunch of text</p>
+                                    <h4>¿Estás seguro que quieres archivar esta nota?</h4>
+                                    <h5 class="grey-text text-darken-4"><?php echo $objNota->getTitulo(); ?></h5>
+                                    <p>
+                                        <?php echo $objNota->getNota(); ?>
+                                    </p>
+                                    <em class="right">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
                                 </div>
-                                <div class="modal-footer">
-                                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                                <div class="modal-footer <?php echo $darkerColor; ?> darken-1">
+                                    <a href="javascript:archivarNota(<?php 
+                                    echo $objNota->getId(); ?>)" class=" modal-action modal-close waves-effect waves-green btn-flat">Sí</a>
+                                    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
+                                </div>
+                            </div>
+                            <div id="eliminar<?php echo $objNota->getId(); ?>" class="modal <?php echo $color; ?>">
+                                <div class="modal-content">
+                                    <h4>¿Estás seguro que quieres eliminar esta nota?</h4>
+                                    <h5 class="grey-text text-darken-4"><?php echo $objNota->getTitulo(); ?></h5>
+                                    <p>
+                                        <?php echo $objNota->getNota(); ?>
+                                    </p>
+                                    <em class="right">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
+                                </div>
+                                <div class="modal-footer <?php echo $darkerColor; ?> darken-1">
+                                    <a href="javascript:eliminarNota(<?php 
+                                    echo $objNota->getId(); ?>)" class=" modal-action modal-close waves-effect waves-green btn-flat white-text">Sí</a>
+                                    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat white-text">Cancelar</a>
                                 </div>
                             </div>
                         </div>
@@ -146,13 +165,14 @@ $notaBLL = new NotaBLL();
                         $objCategoria = $categoriaBLL->selectById($objNota->getIdCategoria());
                         $color = $objCategoria->getColor();
                         $darkerColor = $objCategoria->getColor();
+                        $date = date_create($objNota->getFecha());
                         if ($color == 'grey') {
                             $color = 'white';
                         }
                         ?>
                         <div class="col s12 m6 l3">
                             <div id="nota-archivada-<?php echo $objNota->getId(); ?>"class="card <?php echo $color; ?> z-depth-1 nota">
-                                <div class="card-content modal-triggerr" href="#modal1">
+                                <div class="card-content">
                                     <h5 class="grey-text text-darken-4"><?php echo $objNota->getTitulo(); ?></h5>
                                     <p>
                                         <?php echo $objNota->getNota(); ?>
@@ -160,20 +180,24 @@ $notaBLL = new NotaBLL();
                                 </div>
                                 <div class="card-action <?php echo $darkerColor; ?> darken-1">
                                     <a id="archivar-nota" href="javascript:desarchivarNota(<?php 
-                                    echo $objNota->getId(); ?>)"><i class="small mdi mdi-content-archive white-text"></i></a>
-                                    <a id="cambiar-categoria" href="#"><i class="small mdi mdi-image-palette white-text"></i></a>
-                                    <a id="eliminar-nota" href="javascript:eliminarNota(<?php 
-                                    echo $objNota->getId(); ?>)"><i class="small mdi mdi-navigation-close white-text"></i></a>
-                                    <p class="right white-text">11/11/2015</p>
+                                    echo $objNota->getId(); ?>)" class="btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>
+                                    <a id="cambiar-categoria" href="#" class="btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-image-palette white-text"></i></a>
+                                    <a id="eliminar-nota" href="#eliminar<?php echo $objNota->getId(); ?>" class="modal-trigger btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-navigation-close white-text"></i></a>
                                 </div>
                             </div>
-                            <div id="modal1" class="modal">
+                            <div id="eliminar<?php echo $objNota->getId(); ?>" class="modal <?php echo $color; ?>">
                                 <div class="modal-content">
-                                    <h4>Modal Header</h4>
-                                    <p>A bunch of text</p>
+                                    <h4>¿Estás seguro que quieres eliminar esta nota?</h4>
+                                    <h5 class="grey-text text-darken-4"><?php echo $objNota->getTitulo(); ?></h5>
+                                    <p>
+                                        <?php echo $objNota->getNota(); ?>
+                                    </p>
+                                    <em class="right">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
                                 </div>
-                                <div class="modal-footer">
-                                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                                <div class="modal-footer <?php echo $darkerColor; ?> darken-1">
+                                    <a href="javascript:eliminarNota(<?php 
+                                    echo $objNota->getId(); ?>)" class=" modal-action modal-close waves-effect waves-green btn-flat white-text">Sí</a>
+                                    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat white-text">Cancelar</a>
                                 </div>
                             </div>
                         </div>

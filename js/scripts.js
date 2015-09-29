@@ -40,6 +40,79 @@ Date.prototype.Formato = function() {
     var dd = this.getDate() < 10 ? "0" + this.getDate() : this.getDate();
     return "".concat(dd).concat("/").concat(mm).concat("/").concat(yyyy);
 };
+
+function crearNotaActiva(objNotaRespuesta, objCategoriaRespuesta) {
+    var fecha = new Date.createFromMysql(objNotaRespuesta.fecha);
+    var color = objCategoriaRespuesta.color == 'grey' ? 'white' : objCategoriaRespuesta.color;
+    var nota =  '<div class="col s12 m6 l3">'
+            +   '<div id="nota-activa-' + objNotaRespuesta.id + '" class="card ' + color + ' z-depth-1 nota">'
+            +   '<div class="card-content">'
+            +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
+            +    '<p>' + objNotaRespuesta.nota + '</p>'
+            +   '</div>'
+            +   '<div class="card-action ' + objCategoriaRespuesta.color + ' darken-1">'
+            +   '<a id="archivar-nota" href="#archivar' + objNotaRespuesta.id + '" class="modal-trigger btn-floating ' +  objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>'
+            +   '<a id="cambiar-categoria" href="#" class="btn-floating ' + objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-image-palette white-text "></i></a>'
+            +   '<a id="eliminar-nota" href="#eliminar' + objNotaRespuesta.id + '" class="modal-trigger btn-floating ' + objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-navigation-close white-text"></i></a>'
+            +   '</div>'
+            +   '</div>'
+            +   '<div id="archivar' + objNotaRespuesta.id + '" class="modal ' + color + '">'
+            +   '<div class="modal-content">'
+            +   '<h4>¿Estás seguro que quieres archivar esta nota?</h4>'
+            +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
+            +   '<p>' + objNotaRespuesta.nota + '</p>'
+            +   '<em class="right">Última edición: ' + fecha.Formato() + '</em>'
+            +   '</div>'
+            +   '<div class="modal-footer ' + objCategoriaRespuesta.color + ' darken-1">'
+            +   '<a href="javascript:archivarNota(' + objNotaRespuesta.id + ')" class=" modal-action modal-close waves-effect waves-green btn-flat">Sí</a>'
+            +   '<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>'
+            +   '</div>'
+            +   '</div>'
+            +   '<div id="eliminar'+objNotaRespuesta.id+'" class="modal ' + color + '">'
+            +   '<div class="modal-content">'
+            +   '<h4>¿Estás seguro que quieres eliminar esta nota?</h4>'
+            +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
+            +   '<p>' + objNotaRespuesta.nota + '</p>'
+            +   '<em class="right">Última edición: ' + fecha.Formato() + '</em>'
+            +   '</div>'
+            +   '<div class="modal-footer ' + objCategoriaRespuesta.color + ' darken-1">'
+            +   '<a href="javascript:eliminarNota(' + objNotaRespuesta.id + ')" class=" modal-action modal-close waves-effect waves-green btn-flat white-text">Sí</a>'
+            +   '<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat white-text">Cancelar</a>'
+            +   '</div>'
+            +   '</div>'
+            +   '</div>'
+    return nota;
+}
+function crearNotaArchivada(objNotaRespuesta, objCategoriaRespuesta) {
+    var fecha = new Date.createFromMysql(objNotaRespuesta.fecha);
+    var color = objCategoriaRespuesta.color == 'grey' ? 'white' : objCategoriaRespuesta.color;
+    var nota =  '<div class="col s12 m6 l3">'
+            +   '<div id="nota-archivada-' + objNotaRespuesta.id + '" class="card ' + color + ' z-depth-1 nota">'
+            +   '<div class="card-content">'
+            +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
+            +    '<p>' + objNotaRespuesta.nota + '</p>'
+            +   '</div>'
+            +   '<div class="card-action ' + objCategoriaRespuesta.color + ' darken-1">'
+            +   '<a id="archivar-nota" href="javascript:desarchivarNota(' + objNotaRespuesta.id + ')" class="modal-trigger btn-floating ' +  objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>'
+            +   '<a id="cambiar-categoria" href="#" class="btn-floating ' + objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-image-palette white-text "></i></a>'
+            +   '<a id="eliminar-nota" href="#eliminar' + objNotaRespuesta.id + '" class="modal-trigger btn-floating ' + objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-navigation-close white-text"></i></a>'
+            +   '</div>'
+            +   '</div>'
+            +   '<div id="eliminar'+objNotaRespuesta.id+'" class="modal ' + color + '">'
+            +   '<div class="modal-content">'
+            +   '<h4>¿Estás seguro que quieres eliminar esta nota?</h4>'
+            +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
+            +   '<p>' + objNotaRespuesta.nota + '</p>'
+            +   '<em class="right">Última edición: ' + fecha.Formato() + '</em>'
+            +   '</div>'
+            +   '<div class="modal-footer ' + objCategoriaRespuesta.color + ' darken-1">'
+            +   '<a href="javascript:eliminarNota(' + objNotaRespuesta.id + ')" class=" modal-action modal-close waves-effect waves-green btn-flat white-text">Sí</a>'
+            +   '<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat white-text">Cancelar</a>'
+            +   '</div>'
+            +   '</div>'
+            +   '</div>'
+    return nota;
+}
 /*Script para la navegación de la página*/
 function mostrarNotasActivas() {
     var listaNotasActivas = document.getElementById("main-listaNotasActivas");
@@ -119,22 +192,12 @@ function llegoMetodoInsertarNota() {
     if (peticion.readyState == 4) {
         //Si llegó sin errores, entra acá
         var respuesta = peticion.responseText;
-        var objNotaRespuesta = JSON.parse(respuesta);
+        var objRespuesta = JSON.parse(respuesta);
+        var objNotaRespuesta = objRespuesta['nota'];
+        var objCategoriaRespuesta = objRespuesta['categoria'];
         var listaNotas = document.getElementById("listaNotasActivas");
 
-        var fecha = new Date.createFromMysql(objNotaRespuesta.fecha);
-
-
-        var nota = '<div class="col s12 m6 l3">'
-        		  +'<div id="nota-activa-'+objNotaRespuesta.id+'" class="card white z-depth-1 nota">'
-        		  +'<div class="card-content">'
-        		  +'<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
-        		  +'<p>' + objNotaRespuesta.nota + '</p>'
-        		  +'</div><div class="card-action grey lighten-1">'
-        		  +'<a id="archivar-nota" href="javascript:archivarNota(' + objNotaRespuesta.id +')"><i class="small mdi mdi-content-archive white-text"></i></a>' 
-        		  +'<a id="cambiar-categoria" href="#"><i class="small mdi mdi-image-palette white-text"></i></a>' 
-        		  +'<a id="eliminar-nota" href="javascript:eliminarNota(' + objNotaRespuesta.id +')"><i class="small mdi mdi-navigation-close white-text"></i></a>' 
-        		  +'<p class="right white-text">' + fecha.Formato() + '</p></div></div></div>';
+        var nota = crearNotaActiva(objNotaRespuesta, objCategoriaRespuesta);
         listaNotas.innerHTML += nota;
         //var tbody = tblDatos.children[1];
         // tbody.innerHTML += '<tr><td>' + objNotaRespuesta.id +
@@ -144,6 +207,7 @@ function llegoMetodoInsertarNota() {
         //         '</td><td><a href="javascript:cargarPersonaActualizar(' + objNotaRespuesta.id +
         //         ')">Actualizar</a></td><td><a href="javascripteliminarPersona(' + objNotaRespuesta.id +
         //         ')">Eliminar</a></td></tr>';
+        $('.modal-trigger').leanModal();
     }
 }
 /*Métodos necesarios para archivar una nota*/
@@ -166,7 +230,9 @@ function llegoMetodoArchivarNota() {
         //Si llegó sin errores, entra acá
 
         var respuesta = peticion.responseText;
-        var objNotaRespuesta = JSON.parse(respuesta);
+        var objRespuesta = JSON.parse(respuesta);
+        var objNotaRespuesta = objRespuesta['nota'];
+        var objCategoriaRespuesta = objRespuesta['categoria'];
         var notaAEliminar = document.getElementById("nota-activa-" + objNotaRespuesta.id).parentNode;
         notaAEliminar.remove();
         var listaNotas = document.getElementById("listaNotasArchivadas");
@@ -174,17 +240,10 @@ function llegoMetodoArchivarNota() {
         var fecha = new Date.createFromMysql(objNotaRespuesta.fecha);
 
 
-        var nota = '<div class="col s12 m6 l3">'
-        		  +'<div id="nota-archivada-'+objNotaRespuesta.id+'" class="card white z-depth-1 nota">'
-        		  +'<div class="card-content">'
-        		  +'<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
-        		  +'<p>' + objNotaRespuesta.nota + '</p>'
-        		  +'</div><div class="card-action grey lighten-1">'
-        		  +'<a id="archivar-nota" href="javascript:desarchivarNota(' + objNotaRespuesta.id +')"><i class="small mdi mdi-content-archive white-text"></i></a>' 
-        		  +'<a id="cambiar-categoria" href="#"><i class="small mdi mdi-image-palette white-text"></i></a>' 
-        		  +'<a id="eliminar-nota" href="javascript:eliminarNota(' + objNotaRespuesta.id +')"><i class="small mdi mdi-navigation-close white-text"></i></a>' 
-        		  +'<p class="right white-text">' + fecha.Formato() + '</p></div></div></div>';
+        var nota = crearNotaArchivada(objNotaRespuesta, objCategoriaRespuesta);
         listaNotas.innerHTML += nota;
+        Materialize.toast('Nota Archivada', 4000);
+        $('.modal-trigger').leanModal();
     }
 }
 
@@ -208,25 +267,17 @@ function llegoMetodoDesarchivarNota() {
         //Si llegó sin errores, entra acá
 
         var respuesta = peticion.responseText;
-        var objNotaRespuesta = JSON.parse(respuesta);
+        var objRespuesta = JSON.parse(respuesta);
+        var objNotaRespuesta = objRespuesta['nota'];
+        var objCategoriaRespuesta = objRespuesta['categoria'];
         var notaAgregar = document.getElementById("nota-archivada-" + objNotaRespuesta.id).parentNode;
         notaAgregar.remove();
         var listaNotas = document.getElementById("listaNotasActivas");
 
-        var fecha = new Date.createFromMysql(objNotaRespuesta.fecha);
-
-
-        var nota = '<div class="col s12 m6 l3">'
-        		  +'<div id="nota-activa-'+objNotaRespuesta.id+'" class="card white z-depth-1 nota">'
-        		  +'<div class="card-content">'
-        		  +'<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
-        		  +'<p>' + objNotaRespuesta.nota + '</p>'
-        		  +'</div><div class="card-action grey lighten-1">'
-        		  +'<a id="archivar-nota" href="javascript:archivarNota(' + objNotaRespuesta.id +')"><i class="small mdi mdi-content-archive white-text"></i></a>' 
-        		  +'<a id="cambiar-categoria" href="#"><i class="small mdi mdi-image-palette white-text"></i></a>' 
-        		  +'<a id="eliminar-nota" href="javascript:eliminarNota(' + objNotaRespuesta.id +')"><i class="small mdi mdi-navigation-close white-text"></i></a>' 
-        		  +'<p class="right white-text">' + fecha.Formato() + '</p></div></div></div>';
+        var nota = crearNotaActiva(objNotaRespuesta, objCategoriaRespuesta);
         listaNotas.innerHTML += nota;
+        Materialize.toast('Nota Desarchivada', 4000)
+        $('.modal-trigger').leanModal();
     }
 }
 
@@ -259,5 +310,6 @@ function llegoMetodoEliminarNota() {
             notaEliminar = document.getElementById("nota-archivada-" + objNotaRespuesta.id).parentNode;
         }
         notaEliminar.remove();
+        Materialize.toast('Nota Eliminada', 4000);
     }
 }

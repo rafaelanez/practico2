@@ -26,8 +26,11 @@ switch ($task) {
         }
         $id = $notaBLL->insert($titulo, $nota, $idCategoria);
         $objNota = $notaBLL->selectById($id);
-       // $objCategoria = $categoriaBLL->selectById($idCategoria);
-        echo json_encode($objNota);
+        $objCategoria = $categoriaBLL->selectById($idCategoria);
+        echo json_encode(array(
+            'nota'=>$objNota,
+            'categoria'=>$objCategoria,
+        ));
         break;
     case "seleccionar":
         if (isset($_REQUEST["id"])) {
@@ -42,8 +45,11 @@ switch ($task) {
         }
         $notaBLL->archivar($id,0);
         $objNota = $notaBLL->selectById($id);
-       // $objCategoria = $categoriaBLL->selectById($idCategoria);
-        echo json_encode($objNota);
+        $objCategoria = $categoriaBLL->selectById($objNota->getIdCategoria());
+        echo json_encode(array(
+            'nota'=>$objNota,
+            'categoria'=>$objCategoria,
+        ));
         break;
 	case "desarchivar":
     	if (isset($_REQUEST["id"])) {
@@ -51,8 +57,11 @@ switch ($task) {
         }
         $notaBLL->archivar($id,1);
         $objNota = $notaBLL->selectById($id);
-       // $objCategoria = $categoriaBLL->selectById($idCategoria);
-        echo json_encode($objNota);
+        $objCategoria = $categoriaBLL->selectById($objNota->getIdCategoria());
+        echo json_encode(array(
+            'nota'=>$objNota,
+            'categoria'=>$objCategoria,
+        ));
         break;
     // case "actualizar":
     //     if (isset($_REQUEST["nombres"])) {

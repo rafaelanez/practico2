@@ -60,6 +60,9 @@ main .nota.card .card-action {
 main .nota.card:hover .card-action {
   visibility: visible;
 }
+main .nota.card .card-action a {
+  margin-right: 0;
+}
 main #categorias a:hover i {
   font-weight: 600;
 }
