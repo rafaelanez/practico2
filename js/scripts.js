@@ -44,11 +44,18 @@ Date.prototype.Formato = function() {
 function crearNotaActiva(objNotaRespuesta, objCategoriaRespuesta) {
     var fecha = new Date.createFromMysql(objNotaRespuesta.fecha);
     var color = objCategoriaRespuesta.color == 'grey' ? 'white' : objCategoriaRespuesta.color;
-    var nota =  '<div class="col s12 m6 l3">'
-            +   '<div id="nota-activa-' + objNotaRespuesta.id + '" class="card ' + color + ' z-depth-1 nota">'
+    var notaFormateada = objNotaRespuesta.nota.replace(/\r?\n/g, '<br />');
+    var nota =  '<div id="editar-nota-'+objNotaRespuesta.id+'"class="col s12 m6 l3">'
+            +   '<div id="nota-activa-' + objNotaRespuesta.id + '" class="card ' + color + ' z-depth-1 nota editar-nota">'
             +   '<div class="card-content">'
-            +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
-            +    '<p>' + objNotaRespuesta.nota + '</p>'
+            +   '<h5 id="display-titulo-'+objNotaRespuesta.id+'" class="grey-text text-darken-4" onclick="javascript:mostrarInputTitulo('+objNotaRespuesta.id+')">'+objNotaRespuesta.titulo+'</h5>'
+            +   '<div class="input-field">'
+            +   '<input placeholder="Título" id="titulo-'+objNotaRespuesta.id+'" type="text" value="'+objNotaRespuesta.titulo+ '" onblur="javascript:editarTitulo('+objNotaRespuesta.id+')">'
+            +   '</div>'
+            +   '<p id="display-nota-'+objNotaRespuesta.id+'" onclick="javascript:mostrarInputNota('+objNotaRespuesta.id+')">' + objNotaRespuesta.nota +'</p>'
+            +   '<div class="input-field">'
+            +   '<textarea placeholder="Añadir Nota" id="nota-'+objNotaRespuesta.id+'"  class="materialize-textarea" onblur="javascript:editarNota('+objNotaRespuesta.id+')">'+notaFormateada+'</textarea>'
+            +   '</div>'
             +   '</div>'
             +   '<div class="card-action ' + objCategoriaRespuesta.color + ' darken-1">'
             +   '<a id="archivar-nota" href="#archivar' + objNotaRespuesta.id + '" class="modal-trigger btn-floating ' +  objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>'
@@ -61,7 +68,7 @@ function crearNotaActiva(objNotaRespuesta, objCategoriaRespuesta) {
             +   '<h4>¿Estás seguro que quieres archivar esta nota?</h4>'
             +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
             +   '<p>' + objNotaRespuesta.nota + '</p>'
-            +   '<em class="right">Última edición: ' + fecha.Formato() + '</em>'
+            +   '<em class="right" id="fecha-edicion-' + objNotaRespuesta.id+ '">Última edición: ' + fecha.Formato() + '</em>'
             +   '</div>'
             +   '<div class="modal-footer ' + objCategoriaRespuesta.color + ' darken-1">'
             +   '<a href="javascript:archivarNota(' + objNotaRespuesta.id + ')" class=" modal-action modal-close waves-effect waves-green btn-flat">Sí</a>'
@@ -73,7 +80,7 @@ function crearNotaActiva(objNotaRespuesta, objCategoriaRespuesta) {
             +   '<h4>¿Estás seguro que quieres eliminar esta nota?</h4>'
             +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
             +   '<p>' + objNotaRespuesta.nota + '</p>'
-            +   '<em class="right">Última edición: ' + fecha.Formato() + '</em>'
+            +   '<em class="right" id="fecha-edicion-' + objNotaRespuesta.id+ '">Última edición: ' + fecha.Formato() + '</em>'
             +   '</div>'
             +   '<div class="modal-footer ' + objCategoriaRespuesta.color + ' darken-1">'
             +   '<a href="javascript:eliminarNota(' + objNotaRespuesta.id + ')" class=" modal-action modal-close waves-effect waves-green btn-flat white-text">Sí</a>'
@@ -86,11 +93,18 @@ function crearNotaActiva(objNotaRespuesta, objCategoriaRespuesta) {
 function crearNotaArchivada(objNotaRespuesta, objCategoriaRespuesta) {
     var fecha = new Date.createFromMysql(objNotaRespuesta.fecha);
     var color = objCategoriaRespuesta.color == 'grey' ? 'white' : objCategoriaRespuesta.color;
-    var nota =  '<div class="col s12 m6 l3">'
-            +   '<div id="nota-archivada-' + objNotaRespuesta.id + '" class="card ' + color + ' z-depth-1 nota">'
+    var notaFormateada = objNotaRespuesta.nota.replace(/\r?\n/g, '<br />');
+    var nota =  '<div id="editar-nota-'+objNotaRespuesta.id+'"class="col s12 m6 l3">'
+            +   '<div id="nota-archivada-' + objNotaRespuesta.id + '" class="card ' + color + ' z-depth-1 nota editar-nota">'
             +   '<div class="card-content">'
-            +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
-            +    '<p>' + objNotaRespuesta.nota + '</p>'
+            +   '<h5 id="display-titulo-'+objNotaRespuesta.id+'" class="grey-text text-darken-4" onclick="javascript:mostrarInputTitulo('+objNotaRespuesta.id+')">'+objNotaRespuesta.titulo+'</h5>'
+            +   '<div class="input-field">'
+            +   '<input placeholder="Título" id="titulo-'+objNotaRespuesta.id+'" type="text" value="'+objNotaRespuesta.titulo+ '" onblur="javascript:editarTitulo('+objNotaRespuesta.id+')">'
+            +   '</div>'
+            +   '<p id="display-nota-'+objNotaRespuesta.id+'" onclick="javascript:mostrarInputNota('+objNotaRespuesta.id+')">' + objNotaRespuesta.nota +'</p>'
+            +   '<div class="input-field">'
+            +   '<textarea placeholder="Añadir Nota" id="nota-'+objNotaRespuesta.id+'"  class="materialize-textarea" onblur="javascript:editarNota('+objNotaRespuesta.id+')">'+notaFormateada+'</textarea>'
+            +   '</div>'
             +   '</div>'
             +   '<div class="card-action ' + objCategoriaRespuesta.color + ' darken-1">'
             +   '<a id="archivar-nota" href="javascript:desarchivarNota(' + objNotaRespuesta.id + ')" class="btn-floating ' +  objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>'
@@ -103,7 +117,7 @@ function crearNotaArchivada(objNotaRespuesta, objCategoriaRespuesta) {
             +   '<h4>¿Estás seguro que quieres eliminar esta nota?</h4>'
             +   '<h5 class="grey-text text-darken-4">' + objNotaRespuesta.titulo + '</h5>'
             +   '<p>' + objNotaRespuesta.nota + '</p>'
-            +   '<em class="right">Última edición: ' + fecha.Formato() + '</em>'
+            +   '<em class="right" id="fecha-edicion-' + objNotaRespuesta.id+ '">Última edición: ' + fecha.Formato() + '</em>'
             +   '</div>'
             +   '<div class="modal-footer ' + objCategoriaRespuesta.color + ' darken-1">'
             +   '<a href="javascript:eliminarNota(' + objNotaRespuesta.id + ')" class=" modal-action modal-close waves-effect waves-green btn-flat white-text">Sí</a>'
@@ -370,7 +384,6 @@ function editarNota(idNota) {
     var notaInput = document.getElementById("nota-" + idNota);
     var notaVal = notaInput.value;
     notaVal = notaVal.replace(/\r?\n/g, '<br />');
-    
     var url = "FuncionesNota.php?id=" + idNota +"&nota=" + notaVal + "&task=editarNota";
     peticion.open("GET", url, true);
 
@@ -399,6 +412,97 @@ function llegoMetodoEditarNota() {
         displayNota.innerHTML = objNotaRespuesta.nota;
         inputNota.innerHTML = objNotaRespuesta.nota;
         displayNota.setAttribute("style", "display:block");
+        Materialize.toast('Nota Actualizada', 4000);
+    }
+}
+
+/*Cambiar de categoría*/
+function cambiarCategoria(idCategoria, idNota) {
+    var url = "FuncionesNota.php?id=" + idNota +"&idCategoria=" + idCategoria + "&task=cambiarCategoria";
+    peticion.open("GET", url, true);
+
+    peticion.setRequestHeader("content-type", "application/json");
+    peticion.setRequestHeader("Accept", "application/json");
+
+    peticion.onreadystatechange = llegoMetodoCambiarCategoria;
+    peticion.send();
+}
+
+function llegoMetodoCambiarCategoria() {
+    /*Si la petición llegó, entra aquí*/
+
+    if (peticion.readyState == 4) {
+        //Si llegó sin errores, entra acá
+
+        var respuesta = peticion.responseText;
+        var objRespuesta = JSON.parse(respuesta);
+        var objNotaRespuesta = objRespuesta['nota'];
+        var objCategoriaRespuesta = objRespuesta['categoria'];
+        var objCategoriaAnteriorRespuesta = objRespuesta['categoriaAnterior'];
+
+        var color = objCategoriaRespuesta.color;
+        var colorActual = objCategoriaAnteriorRespuesta.color;
+
+        var nota;
+        
+
+        if(objNotaRespuesta.estado == '1'){
+            nota = document.getElementById("nota-activa-" + objNotaRespuesta.id);
+        } else if (objNotaRespuesta.estado == '0') {
+            nota = document.getElementById("nota-archivada-" + objNotaRespuesta.id);
+        }
+
+        var controlPanel = document.getElementById("control-panel-" + objNotaRespuesta.id);
+        var botonEditar = document.getElementById("control-panel-" + objNotaRespuesta.id).children[0];
+        var botonArchivar = document.getElementById("control-panel-" + objNotaRespuesta.id).children[1];
+        var botonEliminar = document.getElementById("control-panel-" + objNotaRespuesta.id).children[3];
+        var modalEliminar = document.getElementById("eliminar" + objNotaRespuesta.id);
+        var modalArchivar = document.getElementById("archivar" + objNotaRespuesta.id);
+        var modalFooterEliminar = document.getElementById("footer-eliminar" + objNotaRespuesta.id);
+        var modalFooterArchivar = document.getElementById("footer-archivar" + objNotaRespuesta.id);
+
+        if (colorActual == 'grey') {
+            nota.classList.remove('white');
+            controlPanel.classList.remove('grey');
+            botonEditar.classList.remove('grey');
+            botonArchivar.classList.remove('grey');
+            botonEliminar.classList.remove('grey');
+            modalEliminar.classList.remove('white');
+            modalArchivar.classList.remove('white');
+            modalFooterEliminar.classList.remove('grey');
+            modalFooterArchivar.classList.remove('grey');
+        } else {
+            nota.classList.remove(colorActual);
+            controlPanel.classList.remove(colorActual);
+            botonEditar.classList.remove(colorActual);
+            botonArchivar.classList.remove(colorActual);
+            botonEliminar.classList.remove(colorActual);
+            modalEliminar.classList.remove(colorActual);
+            modalArchivar.classList.remove(colorActual);
+            modalFooterEliminar.classList.remove(colorActual);
+            modalFooterArchivar.classList.remove(colorActual);
+        }
+        if (color == 'grey') {
+            nota.classList.add('white');
+            controlPanel.classList.add('grey');
+            botonEditar.classList.add('grey');
+            botonArchivar.classList.add('grey');
+            botonEliminar.classList.add('grey');
+            modalEliminar.classList.add('white');
+            modalArchivar.classList.add('white');
+            modalFooterEliminar.classList.add('grey');
+            modalFooterArchivar.classList.add('grey');
+        } else {
+            nota.classList.add(color);
+            controlPanel.classList.add(color);
+            botonEditar.classList.add(color);
+            botonArchivar.classList.add(color);
+            botonEliminar.classList.add(color);
+            modalEliminar.classList.add(color);
+            modalArchivar.classList.add(color);
+            modalFooterEliminar.classList.add(color);
+            modalFooterArchivar.classList.add(color);
+        }
         Materialize.toast('Nota Actualizada', 4000);
     }
 }

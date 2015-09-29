@@ -5,21 +5,21 @@
  *
  * Made By MaterializeCSS.com
  */
- 
+
  ::-webkit-input-placeholder {
    color: rgba(0,0,0,0.7);
 }
 
 :-moz-placeholder { /* Firefox 18- */
-   color: rgba(0,0,0,0.7);  
+   color: rgba(0,0,0,0.7);
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
-   color: rgba(0,0,0,0.7);  
+   color: rgba(0,0,0,0.7);
 }
 
-:-ms-input-placeholder {  
-   color: rgba(0,0,0,0.7);  
+:-ms-input-placeholder {
+   color: rgba(0,0,0,0.7);
 }
 
 .icon-block {
@@ -34,7 +34,7 @@
 }
 
 main {
-	margin-top: 32px;	
+	margin-top: 32px;
 	#agregar-nota, .nota {
   		input, textarea {
   			border-bottom: none;
@@ -43,7 +43,7 @@ main {
   		}
   		input:focus, textarea:focus {
   			box-shadow: none !important;
-        border-bottom: none !important;   
+        border-bottom: none !important;
   		}
   		input {
   			font-weight: bold;
@@ -70,13 +70,14 @@ main {
     }
   }
   .nota.card {
+    overflow: visible;
     .card-action {
       a {
         margin-right: 0;
       }
     }
   }
-	#categorias {
+	.categorias {
 		a:hover {
 			i {
 				font-weight: 600;

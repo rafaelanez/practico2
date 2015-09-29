@@ -66,7 +66,7 @@ $notaBLL = new NotaBLL();
                             <div id="categoria-wrapper" class="col s12 grey darken-1">
                                 <a id="cambiar-categoria" href="#" class="dropdown-button btn-floating white-text grey darken-1 z-depth-0" data-activates='categorias'><i class="small mdi mdi-image-palette"></i></a>
                                 <a id="agregar-nota" href="javascript:insertarNota()" class="btn-flat right white-text">Hecho</a>
-                                <div id="categorias" class='dropdown-content'>
+                                <div id="categorias" class='dropdown-content categorias'>
                                     <?php
                                     $listaCategorias = $categoriaBLL->selectAll();
                                     $count = 1;
@@ -123,10 +123,33 @@ $notaBLL = new NotaBLL();
                                         <textarea placeholder="Añadir Nota" id="nota-<?php echo $objNota->getId(); ?>"  class="materialize-textarea" onblur="javascript:editarNota(<?php echo $objNota->getId(); ?>)"><?php echo $nota; ?></textarea>
                                     </div>
                                 </div>
-                                <div class="card-action <?php echo $darkerColor; ?> darken-1">
+                                <div id="control-panel-<?php echo $objNota->getId(); ?>" class="card-action <?php echo $darkerColor; ?> darken-1">
                                     <a id="archivar-nota" href="#archivar<?php echo $objNota->getId(); ?>" class="modal-trigger btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>
-                                    <a id="cambiar-categoria" href="#" class="btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-image-palette white-text "></i></a>
+                                    <a id="cambiar-categoria" data-activates='categorias<?php echo $objNota->getId(); ?>' href="#" class="btn-floating dropdown-button <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-image-palette white-text "></i></a>
                                     <a id="eliminar-nota" href="#eliminar<?php echo $objNota->getId(); ?>" class="modal-trigger btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-navigation-close white-text"></i></a>
+                                    <div id="categorias<?php echo $objNota->getId(); ?>" class='dropdown-content categorias'>
+                                        <?php
+                                        $listaCategorias = $categoriaBLL->selectAll();
+                                        $count = 1;
+                                        foreach ($listaCategorias as $objCategoria) {
+                                            ?>
+                                            <a href="javascript:cambiarCategoria(<?php
+                                            echo $objCategoria->getId();
+                                            ?>, <?php echo $objNota->getId(); ?>)" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="<?php echo $objCategoria->getNombre(); ?>">
+                                                <i class="mdi mdi-toggle-radio-button-off small <?php echo $objCategoria->getColor(); ?>-text text-accent-3"></i>
+                                            </a>
+                                            <?php
+                                            if ($count % 4 == 0) {
+                                                ?>
+                                                <br>
+                                                <?php
+                                            }
+                                            ?>
+                                            <?php
+                                            $count++;
+                                        }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                             <div id="archivar<?php echo $objNota->getId(); ?>" class="modal <?php echo $color; ?>">
@@ -138,7 +161,7 @@ $notaBLL = new NotaBLL();
                                     </p>
                                     <em class="right" id="fecha-edicion-<?php echo $objNota->getId(); ?>">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
                                 </div>
-                                <div class="modal-footer <?php echo $darkerColor; ?> darken-1">
+                                <div id="footer-archivar<?php echo $objNota->getId(); ?>" class="modal-footer <?php echo $darkerColor; ?> darken-1">
                                     <a href="javascript:archivarNota(<?php 
                                     echo $objNota->getId(); ?>)" class=" modal-action modal-close waves-effect waves-green btn-flat">Sí</a>
                                     <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
@@ -153,7 +176,7 @@ $notaBLL = new NotaBLL();
                                     </p>
                                     <em class="right" id="fecha-edicion-<?php echo $objNota->getId(); ?>">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
                                 </div>
-                                <div class="modal-footer <?php echo $darkerColor; ?> darken-1">
+                                <div id="footer-eliminar<?php echo $objNota->getId(); ?>" class="modal-footer <?php echo $darkerColor; ?> darken-1">
                                     <a href="javascript:eliminarNota(<?php 
                                     echo $objNota->getId(); ?>)" class=" modal-action modal-close waves-effect waves-green btn-flat white-text">Sí</a>
                                     <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat white-text">Cancelar</a>
@@ -208,7 +231,7 @@ $notaBLL = new NotaBLL();
                                     </p>
                                     <em class="right" id="fecha-edicion-<?php echo $objNota->getId(); ?>">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
                                 </div>
-                                <div class="modal-footer <?php echo $darkerColor; ?> darken-1">
+                                <div id="footer-archivar<?php echo $objNota->getId(); ?>" class="modal-footer <?php echo $darkerColor; ?> darken-1">
                                     <a href="javascript:eliminarNota(<?php 
                                     echo $objNota->getId(); ?>)" class=" modal-action modal-close waves-effect waves-green btn-flat white-text">Sí</a>
                                     <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat white-text">Cancelar</a>

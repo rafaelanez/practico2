@@ -89,23 +89,24 @@ switch ($task) {
         $objNota = $notaBLL->selectById($id);
         echo json_encode($objNota);
         break;
-    // case "actualizar":
-    //     if (isset($_REQUEST["nombres"])) {
-    //         $nombres = $_REQUEST["nombres"];
-    //     }
-    //     if (isset($_REQUEST["apellidos"])) {
-    //         $apellidos = $_REQUEST["apellidos"];
-    //     }
-    //     if (isset($_REQUEST["edad"])) {
-    //         $edad = $_REQUEST["edad"];
-    //     }
-    //     if (isset($_REQUEST["id"])) {
-    //         $id = $_REQUEST["id"];
-    //     }
-    //     $personaBLL->update($nombres, $apellidos, $edad, $id);
-    //     $objPersona = $personaBLL->select($id);
-    //     echo json_encode($objPersona);
-    //     break;
+    case "cambiarCategoria":
+        if (isset($_REQUEST["id"])) {
+            $id = $_REQUEST["id"];
+        }
+        if (isset($_REQUEST["idCategoria"])) {
+            $idCategoria = $_REQUEST["idCategoria"];
+        }
+        $objNota = $notaBLL->selectById($id);
+        $objCategoriaAnterior = $categoriaBLL->selectById($objNota->getIdCategoria());
+        $notaBLL->updateCategoria($id, $idCategoria);
+        $objNota = $notaBLL->selectById($id);
+        $objCategoria = $categoriaBLL->selectById($objNota->getIdCategoria());
+        echo json_encode(array(
+            'nota'=>$objNota,
+            'categoria'=>$objCategoria,
+            'categoriaAnterior' => $objCategoriaAnterior
+        ));
+        break;
     case "eliminar":
         if (isset($_REQUEST["id"])) {
             $id = $_REQUEST["id"];
