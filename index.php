@@ -118,7 +118,8 @@ $notaBLL = new NotaBLL();
                                     <a id="archivar-nota" href="javascript:archivarNota(<?php 
                                     echo $objNota->getId(); ?>)"><i class="small mdi mdi-content-archive white-text"></i></a>
                                     <a id="cambiar-categoria" href="#"><i class="small mdi mdi-image-palette white-text"></i></a>
-                                    <a id="eliminar-nota" href="#"><i class="small mdi mdi-navigation-close white-text"></i></a>
+                                    <a id="eliminar-nota" href="javascript:eliminarNota(<?php 
+                                    echo $objNota->getId(); ?>)"><i class="small mdi mdi-navigation-close white-text"></i></a>
                                     <p class="right white-text">11/11/2015</p>
                                 </div>
                             </div>
@@ -161,7 +162,8 @@ $notaBLL = new NotaBLL();
                                     <a id="archivar-nota" href="javascript:desarchivarNota(<?php 
                                     echo $objNota->getId(); ?>)"><i class="small mdi mdi-content-archive white-text"></i></a>
                                     <a id="cambiar-categoria" href="#"><i class="small mdi mdi-image-palette white-text"></i></a>
-                                    <a id="eliminar-nota" href="#"><i class="small mdi mdi-navigation-close white-text"></i></a>
+                                    <a id="eliminar-nota" href="javascript:eliminarNota(<?php 
+                                    echo $objNota->getId(); ?>)"><i class="small mdi mdi-navigation-close white-text"></i></a>
                                     <p class="right white-text">11/11/2015</p>
                                 </div>
                             </div>

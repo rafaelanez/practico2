@@ -71,12 +71,14 @@ switch ($task) {
     //     $objPersona = $personaBLL->select($id);
     //     echo json_encode($objPersona);
     //     break;
-    // case "eliminar":
-    //     if (isset($_REQUEST["id"])) {
-    //         $id = $_REQUEST["id"];
-    //     }
-    //     $personaBLL->delete($id);
-    //     echo $id;
-    //     break;
+    case "eliminar":
+        if (isset($_REQUEST["id"])) {
+            $id = $_REQUEST["id"];
+        }
+        $objNota = $notaBLL->selectById($id);
+        $notaBLL->delete($id);
+       // $objCategoria = $categoriaBLL->selectById($idCategoria);
+        echo json_encode($objNota);
+        break;
 }
 ?>

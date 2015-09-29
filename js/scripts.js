@@ -32,7 +32,7 @@ Date.createFromMysql = function(mysql_string) {
     }
 
     return result;
-}
+};
 
 Date.prototype.Formato = function() {
     var yyyy = this.getFullYear();
@@ -227,5 +227,37 @@ function llegoMetodoDesarchivarNota() {
         		  +'<a id="eliminar-nota" href="javascript:eliminarNota(' + objNotaRespuesta.id +')"><i class="small mdi mdi-navigation-close white-text"></i></a>' 
         		  +'<p class="right white-text">' + fecha.Formato() + '</p></div></div></div>';
         listaNotas.innerHTML += nota;
+    }
+}
+
+/*Métodos necesarios para desarchivar una nota*/
+function eliminarNota(idNota) {
+
+    var url = "FuncionesNota.php?id=" + idNota +"&task=eliminar";
+    peticion.open("GET", url, true);
+
+    peticion.setRequestHeader("content-type", "application/json");
+    peticion.setRequestHeader("Accept", "application/json");
+
+    peticion.onreadystatechange = llegoMetodoEliminarNota;
+    peticion.send();
+}
+
+function llegoMetodoEliminarNota() {
+    /*Si la petición llegó, entra aquí*/
+
+    if (peticion.readyState == 4) {
+        //Si llegó sin errores, entra acá
+
+        var respuesta = peticion.responseText;
+        var objNotaRespuesta = JSON.parse(respuesta);
+        var notaEliminar;
+
+        if(objNotaRespuesta.estado == 1){
+            notaEliminar = document.getElementById("nota-activa-" + objNotaRespuesta.id).parentNode;
+        } else if(objNotaRespuesta.estado == 0){
+            notaEliminar = document.getElementById("nota-archivada-" + objNotaRespuesta.id).parentNode;
+        }
+        notaEliminar.remove();
     }
 }
