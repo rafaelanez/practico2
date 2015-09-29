@@ -93,7 +93,7 @@ function crearNotaArchivada(objNotaRespuesta, objCategoriaRespuesta) {
             +    '<p>' + objNotaRespuesta.nota + '</p>'
             +   '</div>'
             +   '<div class="card-action ' + objCategoriaRespuesta.color + ' darken-1">'
-            +   '<a id="archivar-nota" href="javascript:desarchivarNota(' + objNotaRespuesta.id + ')" class="modal-trigger btn-floating ' +  objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>'
+            +   '<a id="archivar-nota" href="javascript:desarchivarNota(' + objNotaRespuesta.id + ')" class="btn-floating ' +  objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>'
             +   '<a id="cambiar-categoria" href="#" class="btn-floating ' + objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-image-palette white-text "></i></a>'
             +   '<a id="eliminar-nota" href="#eliminar' + objNotaRespuesta.id + '" class="modal-trigger btn-floating ' + objCategoriaRespuesta.color + ' darken-1 z-depth-0"><i class="small mdi mdi-navigation-close white-text"></i></a>'
             +   '</div>'
@@ -311,5 +311,94 @@ function llegoMetodoEliminarNota() {
         }
         notaEliminar.remove();
         Materialize.toast('Nota Eliminada', 4000);
+    }
+}
+/*funciones necesarias para editar*/
+function mostrarInputTitulo(idNota) {
+    var inputTitulo = document.getElementById("titulo-" + idNota);
+    inputTitulo.setAttribute("style", "display:block");
+    var displayTitulo = document.getElementById("display-titulo-" + idNota);
+    displayTitulo.setAttribute("style", "display:none");
+    inputTitulo.focus();
+}
+
+function mostrarInputNota(idNota) {
+    var inputNota = document.getElementById("nota-" + idNota);
+    inputNota.setAttribute("style", "display:block");
+    var displayNota = document.getElementById("display-nota-" + idNota);
+    displayNota.setAttribute("style", "display:none");
+    inputNota.focus();
+}
+
+function editarTitulo(idNota) {
+    var tituloInput = document.getElementById("titulo-" + idNota);
+    var tituloVal = tituloInput.value;
+
+    var url = "FuncionesNota.php?id=" + idNota +"&titulo=" + tituloVal + "&task=editarTitulo";
+    peticion.open("GET", url, true);
+
+    peticion.setRequestHeader("content-type", "application/json");
+    peticion.setRequestHeader("Accept", "application/json");
+
+    peticion.onreadystatechange = llegoMetodoEditarTitulo;
+    peticion.send();
+}
+
+function llegoMetodoEditarTitulo() {
+    /*Si la petición llegó, entra aquí*/
+
+    if (peticion.readyState == 4) {
+        //Si llegó sin errores, entra acá
+
+        var respuesta = peticion.responseText;
+        var objNotaRespuesta = JSON.parse(respuesta);
+
+        var inputTitulo = document.getElementById("titulo-" + objNotaRespuesta.id);
+        inputTitulo.setAttribute("style", "display:none");
+        var fechaEdicion = document.getElementById("fecha-edicion-" + objNotaRespuesta.id);
+        var fecha = new Date.createFromMysql(objNotaRespuesta.fecha);
+        fechaEdicion.innerHTML = 'Última edición: ' + fecha.Formato();
+        var displayTitulo = document.getElementById("display-titulo-" + objNotaRespuesta.id);
+        displayTitulo.innerHTML = objNotaRespuesta.titulo;
+        inputTitulo.innerHTML = objNotaRespuesta.titulo;
+        displayTitulo.setAttribute("style", "display:block");
+        Materialize.toast('Nota Actualizada', 4000);
+    }
+}
+
+function editarNota(idNota) {
+    var notaInput = document.getElementById("nota-" + idNota);
+    var notaVal = notaInput.value;
+    notaVal = notaVal.replace(/\r?\n/g, '<br />');
+    
+    var url = "FuncionesNota.php?id=" + idNota +"&nota=" + notaVal + "&task=editarNota";
+    peticion.open("GET", url, true);
+
+    peticion.setRequestHeader("content-type", "application/json");
+    peticion.setRequestHeader("Accept", "application/json");
+
+    peticion.onreadystatechange = llegoMetodoEditarNota;
+    peticion.send();
+}
+
+function llegoMetodoEditarNota() {
+    /*Si la petición llegó, entra aquí*/
+
+    if (peticion.readyState == 4) {
+        //Si llegó sin errores, entra acá
+
+        var respuesta = peticion.responseText;
+        var objNotaRespuesta = JSON.parse(respuesta);
+
+        var inputNota = document.getElementById("nota-" + objNotaRespuesta.id);
+        inputNota.setAttribute("style", "display:none");
+        var fechaEdicion = document.getElementById("fecha-edicion-" + objNotaRespuesta.id);
+        var fecha = new Date.createFromMysql(objNotaRespuesta.fecha);
+        fechaEdicion.innerHTML = 'Última edición: ' + fecha.Formato();
+        var displayNota = document.getElementById("display-nota-" + objNotaRespuesta.id);
+        displayNota.innerHTML = objNotaRespuesta.nota;
+        inputNota.innerHTML = objNotaRespuesta.nota;
+        displayNota.setAttribute("style", "display:block");
+        Materialize.toast('Nota Actualizada', 4000);
     }
 }

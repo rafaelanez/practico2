@@ -103,17 +103,25 @@ $notaBLL = new NotaBLL();
                         $color = $objCategoria->getColor();
                         $darkerColor = $objCategoria->getColor();
                         $date = date_create($objNota->getFecha());
+                        $breaks = array("<br />","<br>","<br/>","<br />","&lt;br /&gt;","&lt;br/&gt;","&lt;br&gt;");
+                        $nota = str_ireplace($breaks, "\r\n", $objNota->getNota());
                         if ($color == 'grey') {
                             $color = 'white';
                         }
                         ?>
-                        <div class="col s12 m6 l3">
-                            <div id="nota-activa-<?php echo $objNota->getId(); ?>" class="card <?php echo $color; ?> z-depth-1 nota">
+                        <div id = "editar-nota-<?php echo $objNota->getId(); ?>" class="col s12 m6 l3">
+                            <div id="nota-activa-<?php echo $objNota->getId(); ?>" class="card <?php echo $color; ?> z-depth-1 nota editar-nota">
                                 <div class="card-content">
-                                    <h5 class="grey-text text-darken-4"><?php echo $objNota->getTitulo(); ?></h5>
-                                    <p>
+                                    <h5 id="display-titulo-<?php echo $objNota->getId(); ?>" class="grey-text text-darken-4" onclick="javascript:mostrarInputTitulo(<?php echo $objNota->getId(); ?>)"><?php echo $objNota->getTitulo(); ?></h5>
+                                    <div class="input-field">
+                                        <input placeholder="Título" id="titulo-<?php echo $objNota->getId(); ?>" type="text" value="<?php echo $objNota->getTitulo(); ?> " onblur="javascript:editarTitulo(<?php echo $objNota->getId(); ?>)">
+                                    </div>
+                                    <p id="display-nota-<?php echo $objNota->getId(); ?>" onclick="javascript:mostrarInputNota(<?php echo $objNota->getId(); ?>)">
                                         <?php echo $objNota->getNota(); ?>
                                     </p>
+                                    <div class="input-field">
+                                        <textarea placeholder="Añadir Nota" id="nota-<?php echo $objNota->getId(); ?>"  class="materialize-textarea" onblur="javascript:editarNota(<?php echo $objNota->getId(); ?>)"><?php echo $nota; ?></textarea>
+                                    </div>
                                 </div>
                                 <div class="card-action <?php echo $darkerColor; ?> darken-1">
                                     <a id="archivar-nota" href="#archivar<?php echo $objNota->getId(); ?>" class="modal-trigger btn-floating <?php echo $darkerColor; ?> darken-1 z-depth-0"><i class="small mdi mdi-content-archive white-text"></i></a>
@@ -128,7 +136,7 @@ $notaBLL = new NotaBLL();
                                     <p>
                                         <?php echo $objNota->getNota(); ?>
                                     </p>
-                                    <em class="right">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
+                                    <em class="right" id="fecha-edicion-<?php echo $objNota->getId(); ?>">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
                                 </div>
                                 <div class="modal-footer <?php echo $darkerColor; ?> darken-1">
                                     <a href="javascript:archivarNota(<?php 
@@ -143,7 +151,7 @@ $notaBLL = new NotaBLL();
                                     <p>
                                         <?php echo $objNota->getNota(); ?>
                                     </p>
-                                    <em class="right">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
+                                    <em class="right" id="fecha-edicion-<?php echo $objNota->getId(); ?>">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
                                 </div>
                                 <div class="modal-footer <?php echo $darkerColor; ?> darken-1">
                                     <a href="javascript:eliminarNota(<?php 
@@ -170,13 +178,19 @@ $notaBLL = new NotaBLL();
                             $color = 'white';
                         }
                         ?>
-                        <div class="col s12 m6 l3">
-                            <div id="nota-archivada-<?php echo $objNota->getId(); ?>"class="card <?php echo $color; ?> z-depth-1 nota">
+                        <div id = "editar-nota-<?php echo $objNota->getId(); ?>" class="col s12 m6 l3">
+                            <div id="nota-archivada-<?php echo $objNota->getId(); ?>"class="card <?php echo $color; ?> z-depth-1 nota editar-nota">
                                 <div class="card-content">
-                                    <h5 class="grey-text text-darken-4"><?php echo $objNota->getTitulo(); ?></h5>
-                                    <p>
+                                    <h5 id="display-titulo-<?php echo $objNota->getId(); ?>" class="grey-text text-darken-4" onclick="javascript:mostrarInputTitulo(<?php echo $objNota->getId(); ?>)"><?php echo $objNota->getTitulo(); ?></h5>
+                                    <div class="input-field">
+                                        <input placeholder="Título" id="titulo-<?php echo $objNota->getId(); ?>" type="text" value="<?php echo $objNota->getTitulo(); ?> " onblur="javascript:editarTitulo(<?php echo $objNota->getId(); ?>)">
+                                    </div>
+                                    <p id="display-nota-<?php echo $objNota->getId(); ?>" onclick="javascript:mostrarInputNota(<?php echo $objNota->getId(); ?>)">
                                         <?php echo $objNota->getNota(); ?>
                                     </p>
+                                    <div class="input-field">
+                                        <textarea placeholder="Añadir Nota" id="nota-<?php echo $objNota->getId(); ?>"  class="materialize-textarea" onblur="javascript:editarNota(<?php echo $objNota->getId(); ?>)"><?php echo $nota; ?></textarea>
+                                    </div>
                                 </div>
                                 <div class="card-action <?php echo $darkerColor; ?> darken-1">
                                     <a id="archivar-nota" href="javascript:desarchivarNota(<?php 
@@ -192,7 +206,7 @@ $notaBLL = new NotaBLL();
                                     <p>
                                         <?php echo $objNota->getNota(); ?>
                                     </p>
-                                    <em class="right">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
+                                    <em class="right" id="fecha-edicion-<?php echo $objNota->getId(); ?>">Última edición: <?php echo date_format($date, 'd/m/Y'); ?></em>
                                 </div>
                                 <div class="modal-footer <?php echo $darkerColor; ?> darken-1">
                                     <a href="javascript:eliminarNota(<?php 

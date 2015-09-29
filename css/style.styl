@@ -35,14 +35,15 @@
 
 main {
 	margin-top: 32px;	
-	#agregar-nota {
+	#agregar-nota, .nota {
   		input, textarea {
   			border-bottom: none;
   			height: 1.5rem;
   			margin: 0 0 8px;
   		}
   		input:focus, textarea:focus {
-  			box-shadow: none;
+  			box-shadow: none !important;
+        border-bottom: none !important;   
   		}
   		input {
   			font-weight: bold;
@@ -84,5 +85,10 @@ main {
 	}
   #main-listaNotasArchivadas {
     display:none;
+  }
+  .editar-nota {
+    input, textarea {
+      display: none;
+    }
   }
 }

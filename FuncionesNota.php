@@ -63,6 +63,32 @@ switch ($task) {
             'categoria'=>$objCategoria,
         ));
         break;
+    case "editarTitulo":
+        if (isset($_REQUEST["id"])) {
+            $id = $_REQUEST["id"];
+        }
+        if (isset($_REQUEST["titulo"])) {
+            $titulo = $_REQUEST["titulo"];
+        }
+        $objNota = $notaBLL->selectById($id);
+        $fecha = date("Y-m-d H:i:s");
+        $notaBLL->update($id, $fecha, $titulo, $objNota->getNota());
+        $objNota = $notaBLL->selectById($id);
+        echo json_encode($objNota);
+        break;
+    case "editarNota":
+        if (isset($_REQUEST["id"])) {
+            $id = $_REQUEST["id"];
+        }
+        if (isset($_REQUEST["nota"])) {
+            $nota = $_REQUEST["nota"];
+        }
+        $objNota = $notaBLL->selectById($id);
+        $fecha = date("Y-m-d H:i:s");
+        $notaBLL->update($id, $fecha, $objNota->getTitulo(), $nota);
+        $objNota = $notaBLL->selectById($id);
+        echo json_encode($objNota);
+        break;
     // case "actualizar":
     //     if (isset($_REQUEST["nombres"])) {
     //         $nombres = $_REQUEST["nombres"];
